@@ -1,177 +1,222 @@
+<?php
+$message = "";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $username = trim($_POST["username"] ?? "");
+
+    if ($username === "") {
+        $message = "Please enter your username.";
+    } else {
+        $message = "⚠️ STOP — This is a training page.";
+    }
+}
+?>
+
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Phishing Awareness Training</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-* {
-    box-sizing: border-box;
-}
+    <title>PhotoShare Training</title>
 
-body {
-    margin: 0;
-    font-family: Arial, Tahoma, sans-serif;
-    background: #f5f5f7;
-    color: #222;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont,
+                         "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
 
-.card {
-    width: 100%;
-    max-width: 400px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 18px;
-    padding: 28px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-}
+        body {
+            margin: 0;
+            background: #ffffff;
+            color: #000000;
+        }
 
-.brand {
-    text-align: center;
-    font-size: 28px;
-    font-weight: bold;
-    margin-bottom: 6px;
-}
+        .page {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-.subtitle {
-    text-align: center;
-    color: #777;
-    font-size: 14px;
-    margin-bottom: 25px;
-}
+        .main {
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+        }
 
-label {
-    display: block;
-    font-weight: bold;
-    font-size: 14px;
-    margin: 14px 0 7px;
-}
+        .logo {
+            width: 82px;
+            height: 82px;
+            margin: 0 auto 24px;
+            border-radius: 24px;
+            background: linear-gradient(
+                135deg,
+                #ffd521,
+                #f2a00c,
+                #e22131,
+                #c81f68,
+                #405de6
+            );
+            position: relative;
+        }
 
-input {
-    width: 100%;
-    padding: 13px;
-    border: 1px solid #ccc;
-    border-radius: 9px;
-    font-size: 16px;
-}
+        .logo::before {
+            content: "";
+            position: absolute;
+            width: 42px;
+            height: 42px;
+            border: 4px solid white;
+            border-radius: 13px;
+            top: 17px;
+            left: 17px;
+        }
 
-button {
-    width: 100%;
-    padding: 13px;
-    margin-top: 18px;
-    border: none;
-    border-radius: 9px;
-    background: #222;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-}
+        .logo::after {
+            content: "";
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            top: 25px;
+            right: 25px;
+        }
 
-.notice {
-    display: none;
-    margin-top: 20px;
-    padding: 16px;
-    border-radius: 12px;
-    background: #fff4d6;
-    border: 1px solid #e0c56b;
-    line-height: 1.6;
-}
+        .page-title {
+            font-size: 21px;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
 
-.notice strong {
-    display: block;
-    margin-bottom: 7px;
-}
+        form {
+            width: 100%;
+        }
 
-.footer {
-    text-align: center;
-    color: #777;
-    font-size: 12px;
-    margin-top: 20px;
-}
-</style>
+        .input {
+            width: 100%;
+            height: 44px;
+            background: #ffffff;
+            border: 1px solid #bdbdbd;
+            border-radius: 10px;
+            padding: 0 14px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .input:focus {
+            border-color: #777;
+        }
+
+        .login-button {
+            width: 100%;
+            height: 44px;
+            margin-top: 6px;
+            border: none;
+            border-radius: 22px;
+            background: #0064e0;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .login-button:hover {
+            background: #0053ba;
+        }
+
+        .forgot {
+            display: block;
+            margin-top: 16px;
+            color: #000000;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            background: #fff4d6;
+            border: 1px solid #e0c56b;
+            color: #333;
+            font-size: 13px;
+            line-height: 1.5;
+            font-weight: 600;
+        }
+
+        .training-note {
+            margin-top: 28px;
+            color: #777;
+            font-size: 12px;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="card">
+<div class="page">
 
-    <div class="brand">PhotoShare</div>
+    <div class="main">
 
-    <div class="subtitle">
-        Training Login — Cybersecurity Awareness
-    </div>
+        <div class="logo"></div>
 
-    <form id="trainingForm">
+        <div class="page-title">
+            Log into PhotoShare
+        </div>
 
-        <label>Username</label>
-        <input
-            type="text"
-            id="username"
-            placeholder="مثال: student01"
-            autocomplete="off"
-        >
+        <form method="POST">
 
-        <label>Password</label>
-        <input
-            type="password"
-            id="password"
-            placeholder="اكتبي كلمة وهمية فقط"
-            autocomplete="off"
-        >
+            <input
+                type="text"
+                name="username"
+                class="input"
+                placeholder="Mobile number, username or email"
+                autocomplete="off"
+                required
+            >
 
-        <button type="submit">
-            Log in
-        </button>
+            <input
+                type="password"
+                name="password"
+                class="input"
+                placeholder="Password"
+                autocomplete="off"
+                required
+            >
 
-    </form>
+            <button type="submit" class="login-button">
+                Log in
+            </button>
 
-    <div class="notice" id="notice">
+        </form>
 
-        <strong>⚠️ STOP — هذه صفحة تدريبية</strong>
+        <a href="#" class="forgot">
+            Forgot password?
+        </a>
 
-        تمت محاكاة تسجيل الدخول بنجاح.
+        <?php if ($message !== ""): ?>
 
-        <br><br>
+            <div class="message">
+                <?php echo htmlspecialchars($message); ?>
+                <br><br>
+                Never enter a real password before verifying the website.
+            </div>
 
-        كلمة المرور التي أدخلتيها
-        <strong>لم يتم حفظها أو إرسالها إلى أي مكان.</strong>
+        <?php endif; ?>
 
-        <br><br>
+        <div class="training-note">
+            Cybersecurity Awareness Training
+        </div>
 
-        <strong>الدرس:</strong>
-
-        لا تثقي بالصفحة من شكلها فقط.
-        تحققي من عنوان الموقع ومصدر الرابط قبل تسجيل الدخول.
-
-    </div>
-
-    <div class="footer">
-        تجربة تعليمية فقط — لا تستخدم أي كلمة مرور حقيقية.
     </div>
 
 </div>
-
-<script>
-
-document.getElementById("trainingForm").addEventListener("submit", function(event) {
-
-    event.preventDefault();
-
-    document.getElementById("notice").style.display = "block";
-
-    document.querySelector("button").textContent =
-        "Training Complete ✓";
-
-});
-
-</script>
 
 </body>
 </html>
