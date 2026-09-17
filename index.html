@@ -1,222 +1,224 @@
-<?php
-$message = "";
-
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $username = trim($_POST["username"] ?? "");
-
-    if ($username === "") {
-        $message = "Please enter your username.";
-    } else {
-        $message = "⚠️ STOP — This is a training page.";
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhotoShare - Training Demo</title>
 
-    <title>PhotoShare Training</title>
+<style>
+* {
+    box-sizing: border-box;
+}
 
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont,
-                         "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fafafa;
+    color: #262626;
+}
 
-        body {
-            margin: 0;
-            background: #ffffff;
-            color: #000000;
-        }
+.container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
 
-        .page {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+.login-box {
+    width: 100%;
+    max-width: 350px;
+    text-align: center;
+}
 
-        .main {
-            width: 100%;
-            max-width: 350px;
-            text-align: center;
-        }
+.card {
+    background: white;
+    border: 1px solid #dbdbdb;
+    padding: 35px 35px 25px;
+    border-radius: 4px;
+}
 
-        .logo {
-            width: 82px;
-            height: 82px;
-            margin: 0 auto 24px;
-            border-radius: 24px;
-            background: linear-gradient(
-                135deg,
-                #ffd521,
-                #f2a00c,
-                #e22131,
-                #c81f68,
-                #405de6
-            );
-            position: relative;
-        }
+.logo-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 15px;
+    border-radius: 20px;
+    background: linear-gradient(
+        135deg,
+        #833ab4,
+        #fd1d1d,
+        #fcb045
+    );
+    position: relative;
+}
 
-        .logo::before {
-            content: "";
-            position: absolute;
-            width: 42px;
-            height: 42px;
-            border: 4px solid white;
-            border-radius: 13px;
-            top: 17px;
-            left: 17px;
-        }
+.logo-icon::before {
+    content: "";
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    border: 3px solid white;
+    border-radius: 10px;
+    left: 15px;
+    top: 15px;
+}
 
-        .logo::after {
-            content: "";
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            background: white;
-            border-radius: 50%;
-            top: 25px;
-            right: 25px;
-        }
+.logo-icon::after {
+    content: "";
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: white;
+    border-radius: 50%;
+    right: 13px;
+    top: 13px;
+}
 
-        .page-title {
-            font-size: 21px;
-            font-weight: 700;
-            margin-bottom: 24px;
-        }
+h1 {
+    font-size: 28px;
+    margin: 5px 0 25px;
+    font-weight: 600;
+}
 
-        form {
-            width: 100%;
-        }
+input {
+    width: 100%;
+    padding: 11px;
+    margin-bottom: 8px;
+    border: 1px solid #dbdbdb;
+    border-radius: 4px;
+    background: #fafafa;
+    font-size: 12px;
+}
 
-        .input {
-            width: 100%;
-            height: 44px;
-            background: #ffffff;
-            border: 1px solid #bdbdbd;
-            border-radius: 10px;
-            padding: 0 14px;
-            margin-bottom: 10px;
-            font-size: 14px;
-            outline: none;
-        }
+button {
+    width: 100%;
+    border: none;
+    border-radius: 6px;
+    padding: 10px;
+    margin-top: 8px;
+    background: #3897f0;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-        .input:focus {
-            border-color: #777;
-        }
+button:hover {
+    background: #287dc1;
+}
 
-        .login-button {
-            width: 100%;
-            height: 44px;
-            margin-top: 6px;
-            border: none;
-            border-radius: 22px;
-            background: #0064e0;
-            color: white;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-        }
+.forgot {
+    display: block;
+    margin-top: 18px;
+    font-size: 12px;
+    color: #385185;
+    text-decoration: none;
+}
 
-        .login-button:hover {
-            background: #0053ba;
-        }
+.message {
+    display: none;
+    margin-top: 18px;
+    padding: 14px;
+    border-radius: 6px;
+    background: #fff3cd;
+    border: 1px solid #ffe69c;
+    color: #664d03;
+    font-size: 13px;
+    line-height: 1.5;
+}
 
-        .forgot {
-            display: block;
-            margin-top: 16px;
-            color: #000000;
-            font-size: 14px;
-            font-weight: 600;
-            text-decoration: none;
-        }
+.training-note {
+    margin-top: 18px;
+    font-size: 11px;
+    color: #777;
+    line-height: 1.5;
+}
 
-        .message {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 12px;
-            background: #fff4d6;
-            border: 1px solid #e0c56b;
-            color: #333;
-            font-size: 13px;
-            line-height: 1.5;
-            font-weight: 600;
-        }
-
-        .training-note {
-            margin-top: 28px;
-            color: #777;
-            font-size: 12px;
-        }
-    </style>
+.footer {
+    margin-top: 20px;
+    font-size: 11px;
+    color: #999;
+}
+</style>
 </head>
 
 <body>
 
-<div class="page">
+<div class="container">
 
-    <div class="main">
+    <div class="login-box">
 
-        <div class="logo"></div>
+        <div class="card">
 
-        <div class="page-title">
-            Log into PhotoShare
-        </div>
+            <div class="logo-icon"></div>
 
-        <form method="POST">
+            <h1>PhotoShare</h1>
 
-            <input
-                type="text"
-                name="username"
-                class="input"
-                placeholder="Mobile number, username or email"
-                autocomplete="off"
-                required
-            >
+            <form id="loginForm">
 
-            <input
-                type="password"
-                name="password"
-                class="input"
-                placeholder="Password"
-                autocomplete="off"
-                required
-            >
+                <input
+                    type="text"
+                    id="username"
+                    placeholder="Username"
+                    autocomplete="off"
+                >
 
-            <button type="submit" class="login-button">
-                Log in
-            </button>
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Password"
+                    autocomplete="off"
+                >
 
-        </form>
+                <button type="submit">
+                    Log In
+                </button>
 
-        <a href="#" class="forgot">
-            Forgot password?
-        </a>
+            </form>
 
-        <?php if ($message !== ""): ?>
+            <a href="#" class="forgot" onclick="return false;">
+                Forgot password?
+            </a>
 
-            <div class="message">
-                <?php echo htmlspecialchars($message); ?>
+            <div id="message" class="message">
+                ⚠️ <strong>STOP — This is a training page.</strong>
                 <br><br>
                 Never enter a real password before verifying the website.
             </div>
 
-        <?php endif; ?>
+            <div class="training-note">
+                This page is part of a cybersecurity awareness demonstration.
+                <br>
+                Do not use real account information.
+            </div>
 
-        <div class="training-note">
-            Cybersecurity Awareness Training
+        </div>
+
+        <div class="footer">
+            Educational Training Demo
         </div>
 
     </div>
 
 </div>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const username = document.getElementById("username");
+
+    /*
+       Training purpose only:
+       The password is NOT read, stored, transmitted,
+       or sent anywhere.
+    */
+
+    document.getElementById("message").style.display = "block";
+
+    username.value = "";
+});
+</script>
 
 </body>
 </html>
